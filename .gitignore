@@ -1,0 +1,10 @@
+/packages
+*/obj
+*/bin
+*.suo
+*.user
+/build/binaries_output
+/build/builds/
+*.user
+TestResults
+/.vs

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="4a715110-f745-4a65-95c6-9f502badc4fa" ChangeDateTime="05/24/2016 09:38:48">
+    <Property Name="ElementName" Value="[dbo].[Record].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Record]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RecordId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ebcf194-90d0-4bda-8220-8e741b408853" ChangeDateTime="05/24/2016 09:41:51">
+    <Property Name="ElementName" Value="[dbo].[Author].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Author]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Author" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="de27e0bf-e019-4a7a-a92e-f8ce3dc4b86a" ChangeDateTime="05/24/2016 09:41:59">
+    <Property Name="ElementName" Value="[dbo].[Author].[Author]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Author]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AuthorId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ad63a881-4e6a-40b8-9e32-b47637a38eff" ChangeDateTime="05/24/2016 09:48:27">
+    <Property Name="ElementName" Value="[dbo].[Author].[Aliase]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Author]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Alias" />
+  </Operation>
+</Operations>
