@@ -16,5 +16,9 @@ namespace Biblio.db
         /// Добавить или обновить индексную запись в бд
         /// </summary>
         public static String AddRecord => "[Record].[AddRecord]";
+        /// <summary>
+        /// Добавить или обновить индексную запись в бд
+        /// </summary>
+        public static String AddFulltextRecord => "[dbo].[AddRecord]";
     }
 }

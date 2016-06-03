@@ -34,17 +34,22 @@ namespace Biblio.db
         ///// </summary>
         ///// <param name="word"></param>
         ///// <param name="recordId"></param>
-        public void SaveRecord(String word, Int64 recordId)
+        public void AddFulltextRecord(String word, Int64 recordId)
         {
             if (word == null || recordId < 0)
                 return;
-            _dbBaseReader.Execute(DbSpList.AddRecord, new
+            _dbBaseReader.Execute(DbSpList.AddFulltextRecord, new
             {
                 @Word = word,
                 @RecordId = recordId
             });
         }
 
+        /// <summary>
+        /// Получить список сырых, не обработанных данных из бд
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public List<Raw> GetRawDocList(Int64 count)
         {
             return _dbBaseReader.GetObjectList<Raw>(DbSpList.GetRawDocList, new
