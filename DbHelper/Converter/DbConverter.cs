@@ -10,12 +10,12 @@ using System.Runtime.Caching;
 using DbHelper.Attributes;
 using DbHelper.Domain;
 
-namespace DbHelper
+namespace DbHelper.Converter
 {
-    public static class DbConverter
+    public class DbConverter : IDbConverter
     {
 
-        private static readonly Dictionary<Type, SqlDbType> TypeToSqlDbTypeMap = new Dictionary<Type, SqlDbType>
+        private readonly Dictionary<Type, SqlDbType> _typeToSqlDbTypeMap = new Dictionary<Type, SqlDbType>
         {
             {typeof (Boolean), SqlDbType.Bit},
             {typeof (Boolean?), SqlDbType.Bit},
@@ -55,9 +55,9 @@ namespace DbHelper
             {typeof (sbyte?), SqlDbType.TinyInt},
         };
 
-        private static SqlDbType GetSqlDbType(Type type)
+        private SqlDbType GetSqlDbType(Type type)
         {
-            return TypeToSqlDbTypeMap.ContainsKey(type) ? TypeToSqlDbTypeMap[type] : SqlDbType.Variant;
+            return _typeToSqlDbTypeMap.ContainsKey(type) ? _typeToSqlDbTypeMap[type] : SqlDbType.Variant;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace DbHelper
         /// </summary>
         /// <param name="type">Тип класса</param>
         /// <returns></returns>
-        private static IEnumerable<DbPropCacheInfo> GetTypeProperty(Type type)
+        private IEnumerable<DbPropCacheInfo> GetTypeProperty(Type type)
         {
             var cache = MemoryCache.Default;
             var members = cache[$"DbHelper_{type.FullName}"] as List<DbPropCacheInfo>;
@@ -89,7 +89,7 @@ namespace DbHelper
         /// <param name="obj"></param>
         /// <returns></returns>
         [Obsolete]
-        internal static IEnumerable<SqlParameter> SerializeParams(Dictionary<String, Object> obj)
+        public IEnumerable<SqlParameter> SerializeParams(Dictionary<String, Object> obj)
         {
             if (obj == null)
                 yield break;
@@ -109,7 +109,7 @@ namespace DbHelper
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        internal static IEnumerable<SqlParameter> SerializeParams(object obj)
+        public IEnumerable<SqlParameter> SerializeParams(object obj)
         {
             if (obj == null)
                 yield break;
@@ -140,7 +140,7 @@ namespace DbHelper
             }
         }
 
-        private static DataTable GetDataTable(object value)
+        private DataTable GetDataTable(object value)
         {
             if (value == null)
                 return null;
@@ -167,7 +167,7 @@ namespace DbHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
         /// <param name="obj"></param>
-        internal static void UpdateOutputParams<T>(SqlCommand command, T obj) where T : class
+        public void UpdateOutputParams<T>(SqlCommand command, T obj) where T : class
         {
             if (obj == null)
                 return;
@@ -186,7 +186,7 @@ namespace DbHelper
         /// <param name="obj"></param>
         /// <param name="value"></param>
         /// <param name="propertyInfo"></param>
-        private static void SetPropertyValue(Object obj, Object value, PropertyInfo propertyInfo)
+        private void SetPropertyValue(Object obj, Object value, PropertyInfo propertyInfo)
         {
             var safeValue = GetSafeValue(propertyInfo.PropertyType, value);
             propertyInfo.SetValue(obj, safeValue, null);
@@ -198,7 +198,7 @@ namespace DbHelper
         /// <param name="memberType"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        private static object GetSafeValue(Type memberType, Object value)
+        private object GetSafeValue(Type memberType, Object value)
         {
             object safeValue = null;
             if (!(Convert.IsDBNull(value)))

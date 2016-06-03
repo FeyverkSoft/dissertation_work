@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DbHelper.Converter;
 using DbHelper.Deserializers;
 using DbHelper.Providers;
 
@@ -8,28 +9,73 @@ namespace DbHelper
 {
     public class DbBaseReader : IDbBaseReader
     {
-        private readonly String _con;
+        private readonly String _connectionString;
 
-        /// <summary>
-        /// Пользовательские десериализаторы
-        /// </summary>
-        private readonly IDictionary<Type, IDbReaderDeserializer> _userDeserializers;
+        #region Дефолтные поставщики
         /// <summary>
         /// Дефолтный десериализатор
         /// </summary>
         private readonly IDbReaderDeserializer _defaultDeserializer;
+        /// <summary>
+        /// Конвертер для параметров БД
+        /// </summary>
+        private readonly IDbConverter _defaultDbConverter;
+        #endregion
+
+        #region Ползовательские поставщики
+        /// <summary>
+        /// Пользовательские десериализаторы
+        /// </summary>
+        private readonly IDictionary<Type, IDbReaderDeserializer> _userDeserializers;
+
+        /// <summary>
+        /// Пользовательские конвертеры
+        /// </summary>
+        private readonly IDictionary<Type, IDbConverter> _userDbConverter;
+        #endregion
+
+        #region Ctors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString">Строка подключения к источнику данных</param>
+        /// <param name="deserializers">Набор пользовательский десериализаторов/сериализаторов</param>
+        /// <param name="userDbConverters">Пользовательские конвертеры объектов с данными о входных параметрах по уполчанию для всех методов экземпляра класса указанного типа, может быть переопределено в конкретном вызове</param>
+        public DbBaseReader(String connectionString, IDictionary<Type, IDbReaderDeserializer> deserializers = null, IDictionary<Type, IDbConverter> userDbConverters = null)
+        {
+            _defaultDeserializer = new DataRecordDeserializer();
+            _defaultDbConverter = new DbConverter();
+
+            _connectionString = connectionString;
+            _userDbConverter = userDbConverters;
+            _userDeserializers = deserializers;
+
+        }
+        #endregion
+
+
+        #region Helpers func
 
         private IDataProvider GetProvider()
         {
-            return new DataProvider(_con);
+            return new DataProvider(_connectionString);
         }
 
-
-        public DbBaseReader(String connectionString, IDictionary<Type, IDbReaderDeserializer> deserializers = null)
+        /// <summary>
+        /// Выбрать конвертер входных параметров с учётом приоритетов
+        /// </summary>
+        /// <param name="dbReaderSettings"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private IDbConverter GetDbConverter(DbReaderSettings dbReaderSettings = null, Type type = null)
         {
-            _con = connectionString;
-            _userDeserializers = deserializers ;//?? new Dictionary<Type, IDbReaderDeserializer>();
-            _defaultDeserializer = new DataRecordDeserializer();
+            if (dbReaderSettings?.DbConverter != null)
+                return dbReaderSettings.DbConverter;
+
+            if (type == null || _userDeserializers == null || _userDeserializers.Count == 0)
+                return _defaultDbConverter;
+
+            return _userDbConverter.ContainsKey(type) ? _userDbConverter[type] : _defaultDbConverter;
         }
 
         /// <summary>
@@ -48,6 +94,8 @@ namespace DbHelper
 
             return _userDeserializers.ContainsKey(type) ? _userDeserializers[type] : _defaultDeserializer;
         }
+        #endregion
+
 
         /// <summary>
         /// получить список всех возможных объектов
@@ -62,7 +110,7 @@ namespace DbHelper
             {
                 var res = new List<T>();
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter(dbReaderSettings, @params?.GetType()).SerializeParams(@params).ToArray());
                 using (var dr = command.ExecuteReader())
                 {
                     while (dr.Read())
@@ -70,7 +118,7 @@ namespace DbHelper
                         res.Add(GetDeserializer(dbReaderSettings, typeof(T)).Deserialize<T>(dr));
                     }
                 }
-                DbConverter.UpdateOutputParams(command, @params);
+                GetDbConverter(dbReaderSettings, @params?.GetType()).UpdateOutputParams(command, @params);
                 return res;
             });
         }
@@ -90,7 +138,7 @@ namespace DbHelper
             {
                 var res = new List<T>();
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter(dbReaderSettings, @params?.GetType()).SerializeParams(@params).ToArray());
                 using (var dr = command.ExecuteReader())
                 {
                     while (dr.Read())
@@ -98,7 +146,7 @@ namespace DbHelper
                         res.Add(GetDeserializer(dbReaderSettings, typeof(T)).Deserialize<T>(dr));
                     }
                 }
-                DbConverter.UpdateOutputParams(command, @params);
+                GetDbConverter(dbReaderSettings, @params?.GetType()).UpdateOutputParams(command, @params);
                 return res;
             });
         }
@@ -116,12 +164,12 @@ namespace DbHelper
             return GetProvider().ExecuteCommand(procName, command =>
             {
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter(dbReaderSettings, @params?.GetType()).SerializeParams(@params).ToArray());
                 using (var dr = command.ExecuteReader())
                 {
                     if (dr.Read())
                     {
-                        DbConverter.UpdateOutputParams(command, @params);
+                        GetDbConverter(dbReaderSettings, @params?.GetType()).UpdateOutputParams(command, @params);
                         return GetDeserializer(dbReaderSettings, typeof(T)).Deserialize<T>(dr);
                     }
                     throw new Exception("Запрос не вернул результата");
@@ -141,12 +189,12 @@ namespace DbHelper
             return GetProvider().ExecuteCommand(procName, command =>
             {
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter(dbReaderSettings, @params?.GetType()).SerializeParams(@params).ToArray());
                 using (var dr = command.ExecuteReader())
                 {
                     if (dr.Read())
                     {
-                        DbConverter.UpdateOutputParams(command, @params);
+                        GetDbConverter(dbReaderSettings, @params?.GetType()).UpdateOutputParams(command, @params);
                         return GetDeserializer(dbReaderSettings, typeof(T)).Deserialize<T>(dr);
                     }
                     throw new Exception("Запрос не вернул результата");
@@ -165,9 +213,9 @@ namespace DbHelper
             return GetProvider().ExecuteCommand(procName, command =>
             {
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter().SerializeParams(@params).ToArray());
                 var res = command.ExecuteScalar();
-                DbConverter.UpdateOutputParams(command, @params);
+                GetDbConverter().UpdateOutputParams(command, @params);
                 return res;
             });
         }
@@ -182,9 +230,9 @@ namespace DbHelper
             GetProvider().ExecuteCommand(procName, command =>
             {
                 if (@params != null)
-                    command.Parameters.AddRange(DbConverter.SerializeParams(@params).ToArray());
+                    command.Parameters.AddRange(GetDbConverter().SerializeParams(@params).ToArray());
                 var res = command.ExecuteNonQuery();
-                DbConverter.UpdateOutputParams(command, @params);
+                GetDbConverter().UpdateOutputParams(command, @params);
                 return res;
             });
         }

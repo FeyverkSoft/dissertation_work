@@ -8,6 +8,7 @@ using Biblio.db;
 using Biblio.db.DbParamsObj;
 using Biblio.db.Entity;
 using Biblio.Providers;
+using DbHelper.Converter;
 
 namespace Biblio
 {
@@ -23,8 +24,6 @@ namespace Biblio
 
             var u = impl.GetRawDocList(10100000);
             Console.ReadLine();
-
-
 
             foreach (var raw in u)
             {

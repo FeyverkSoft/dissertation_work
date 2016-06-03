@@ -51,10 +51,11 @@
     <Compile Include="DbReaderSettings.cs" />
     <Compile Include="Deserializers\IDbReaderDeserializer.cs" />
     <Compile Include="IDbBaseReader.cs" />
+    <Compile Include="Converter\IDbConverter.cs" />
     <Compile Include="Providers\DataProvider.cs" />
     <Compile Include="Deserializers\DataRecordDeserializer.cs" />
     <Compile Include="DbBaseReader.cs" />
-    <Compile Include="DbConverter.cs" />
+    <Compile Include="Converter\DbConverter.cs" />
     <Compile Include="Domain\DbPropCacheInfo.cs" />
     <Compile Include="Providers\IDataProvider.cs" />
     <Compile Include="Domain\MemberCacheInfo.cs" />
