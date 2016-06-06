@@ -149,7 +149,7 @@ namespace DbHelper.Converter
             var list = ((IEnumerable)value).Cast<object>().ToList();
             if (!list.Any())
             {
-                Debug.WriteLine($"{value.GetType().FullName}: The type of Structured insufficient entries. The Structured types must contain at least one entry");
+                Debug.WriteLine($"{value.GetType().FullName}: The type of Structured insufficient entries. The Structured types must contain at least one entry", "Warning");
                 return null;
             }
             var dataTable = new DataTable();
