@@ -85,4 +85,7 @@
     <Build Include="Stored Procedures\dbo\AddRecord.sql" />
     <Build Include="Stored Procedures\Internal\AddAuthor.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="lib_db.publish.xml" />
+  </ItemGroup>
 </Project>
