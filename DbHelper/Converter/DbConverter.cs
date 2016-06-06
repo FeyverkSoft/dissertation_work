@@ -147,12 +147,12 @@ namespace DbHelper.Converter
             if (!(value is IEnumerable))
                 throw new Exception($"The param type «{value.GetType()}» should be derived from IEnumerable");
             var list = ((IEnumerable)value).Cast<object>().ToList();
-            var dataTable = new DataTable();
             if (!list.Any())
             {
                 Debug.WriteLine($"{value.GetType().FullName}: The type of Structured insufficient entries. The Structured types must contain at least one entry");
-                return dataTable;
+                return null;
             }
+            var dataTable = new DataTable();
             var type = list.First().GetType();
             var members = GetTypeProperty(type).ToList();
             foreach (var name in members.Select(propertyInfo => !String.IsNullOrEmpty(propertyInfo.DbParamAttribute?.DbParamName) ? propertyInfo.DbParamAttribute.DbParamName : propertyInfo.Name))
