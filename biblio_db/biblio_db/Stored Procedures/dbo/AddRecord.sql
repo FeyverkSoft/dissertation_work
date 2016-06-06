@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [Record].[AddRecord]
     @Title              NVARCHAR(1024), 
     @Face               NVARCHAR(MAX), 
-    @YearOfPublishing   INT NULL, 
-    @NumOfBooks         INT NULL, 
-    @BookShelfSeat      NVARCHAR(512) NULL,
+    @YearOfPublishing   INT NULL = NULL, 
+    @NumOfBooks         INT NULL = NULL, 
+    @BookShelfSeat      NVARCHAR(512) NULL = NULL,
     @Authors            AuthorArray readonly
 AS
 BEGIN
@@ -52,6 +52,8 @@ BEGIN
             INSERT INTO [dbo].[AuthorRecord](AuthorId, RecordId)-- вставляем связку автор-запись
             VALUES (@AuthorId, @RecordId)
 
+        FETCH NEXT FROM CUR 
+        INTO @AuthorFamily, @AuthorTrails
         END
     CLOSE CUR;
     DEALLOCATE CUR;

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Record]
 (
-    [RecordId] BIGINT NOT NULL PRIMARY KEY, 
+    [RecordId] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
     [Title] NVARCHAR(1024) NULL, 
     [Face] NVARCHAR(MAX) NULL, 
     [YearOfPublishing] INT NULL, 

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[AuthorRecord]
 (
-    [AuthorRecordId] BIGINT NOT NULL PRIMARY KEY, 
+    [AuthorRecordId] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
     [AuthorId] BIGINT NOT NULL, 
     [RecordId] BIGINT NOT NULL, 
 );

@@ -149,7 +149,10 @@ namespace DbHelper.Converter
             var list = ((IEnumerable)value).Cast<object>().ToList();
             var dataTable = new DataTable();
             if (!list.Any())
-                throw new ArgumentException($"{value.GetType().FullName}: The type of Structured insufficient entries. The Structured types must contain at least one entry");
+            {
+                Debug.WriteLine($"{value.GetType().FullName}: The type of Structured insufficient entries. The Structured types must contain at least one entry");
+                return dataTable;
+            }
             var type = list.First().GetType();
             var members = GetTypeProperty(type).ToList();
             foreach (var name in members.Select(propertyInfo => !String.IsNullOrEmpty(propertyInfo.DbParamAttribute?.DbParamName) ? propertyInfo.DbParamAttribute.DbParamName : propertyInfo.Name))

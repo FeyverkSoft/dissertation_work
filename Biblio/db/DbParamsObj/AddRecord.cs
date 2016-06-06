@@ -24,9 +24,19 @@ namespace Biblio.db.DbParamsObj
         [DbParam(dbType: SqlDbType.NVarChar)]
         public String Face { get; set; }
         /// <summary>
+        /// Год публикации книги
+        /// </summary>
+        [DbParam(dbType: SqlDbType.BigInt)]
+        public Int64? YearOfPublishing { get; set; }
+        /// <summary>
+        /// Год публикации книги
+        /// </summary>
+        [DbParam(dbType: SqlDbType.BigInt)]
+        public Int64? NumOfBooks { get; set; }
+        /// <summary>
         /// Список авторов
         /// </summary>
-        [DbParam(dbType: SqlDbType.Structured)]
+        [DbParam("@Authors", SqlDbType.Structured)]
         public List<Author> AuthorArray { get; set; }
     }
 }

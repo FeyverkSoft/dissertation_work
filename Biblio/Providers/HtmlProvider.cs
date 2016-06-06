@@ -9,6 +9,8 @@ namespace Biblio.Providers
             var result = String.Empty;
             var count = 0;
             var tempStr = String.Empty;
+            if (input == null)
+                return input;
             foreach (var ch in input)
             {
                 tempStr += ch;
@@ -32,8 +34,19 @@ namespace Biblio.Providers
                     count++;
             }
             result = result.Replace("&nbsp;", "");
-            while (result.Length != (result = result.Replace("  ", " ")).Length) ;
-            return result;
+            return RemoveWhitespace(result.Trim());
+        }
+        /// <summary>
+        /// Рекурсивный метод удаления ришних пробелов
+        /// </summary>
+        /// <param name="string"></param>
+        /// <returns></returns>
+        static String RemoveWhitespace(String @string)
+        {
+            var res = @string.Replace("  ", " ");
+            if (res.Length != @string.Length)
+                return RemoveWhitespace(res);
+            return res;
         }
     }
 }
