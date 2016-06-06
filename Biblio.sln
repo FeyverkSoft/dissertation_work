@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblio", "Biblio\Biblio.csproj", "{BD63592C-C9D2-4048-B567-758DA634C051}"
 EndProject
@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Performance1.psess = Performance1.psess
 	EndProjectSection
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "lib_db", "biblio_db\biblio_db\lib_db.sqlproj", "{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,12 @@ Global
 		{54385CA5-93C7-4FF8-BCB4-A8853025998E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54385CA5-93C7-4FF8-BCB4-A8853025998E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54385CA5-93C7-4FF8-BCB4-A8853025998E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED5FDE5-55C0-4064-8A7B-1EBC85040BC4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

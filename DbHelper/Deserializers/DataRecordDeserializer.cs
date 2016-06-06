@@ -24,7 +24,7 @@ namespace DbHelper.Deserializers
 
         #region Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static IEnumerable<MemberCacheInfo> GetMemberCacheInfo(Type type)
+        private IEnumerable<MemberCacheInfo> GetMemberCacheInfo(Type type)
         {
             var cacheName = $"DataRecordDeserializer_MemberCacheInfo_{type.FullName}";
             var cache = MemoryCache.Default;
@@ -60,7 +60,7 @@ namespace DbHelper.Deserializers
         /// <param name="fieldName"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Boolean HasField(IDataRecord dataReader, String fieldName)
+        private Boolean HasField(IDataRecord dataReader, String fieldName)
         {
             for (var i = 0; i < dataReader.FieldCount; i++)
                 if (dataReader.GetName(i) == fieldName)
