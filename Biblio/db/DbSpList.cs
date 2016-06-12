@@ -5,10 +5,6 @@ namespace Biblio.db
     public static class DbSpList
     {
         /// <summary>
-        /// Добавить слово в коллекцию
-        /// </summary>
-        public static String AddWord => "[dbo].[AddWord]";
-        /// <summary>
         /// Получить список N документов из бд
         /// </summary>
         public static String GetRawDocList => "[dbo].[GetRawDocList]";
@@ -19,6 +15,6 @@ namespace Biblio.db
         /// <summary>
         /// Добавить или обновить индексную запись в бд
         /// </summary>
-        public static String AddFulltextRecord => "[dbo].[AddRecord]";
+        public static String AddFullTextRecord => "[dbo].[AddFullTextRecord]";
     }
 }

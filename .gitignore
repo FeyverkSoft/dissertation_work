@@ -8,3 +8,6 @@
 *.user
 TestResults
 /.vs
+/biblio_db/biblio_db/*.dbmdl
+/biblio_db/biblio_db/bin/Debug
+/biblio_db/biblio_db/obj/Debug

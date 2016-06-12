@@ -1,4 +1,5 @@
 ﻿using System;
+using Biblio.Helpers;
 
 namespace Biblio.Providers
 {
@@ -9,44 +10,35 @@ namespace Biblio.Providers
             var result = String.Empty;
             var count = 0;
             var tempStr = String.Empty;
-            if (input == null)
+            if (String.IsNullOrEmpty(input))
                 return input;
             foreach (var ch in input)
             {
                 tempStr += ch;
-                if (ch == '<')
+                switch (ch)
                 {
-                    count++;
+                    case '<':
+                        count++;
+                        break;
+                    case '>':
+                        count++;
+                        if (count < 3)
+                        {
+                            result += tempStr;
+                        }
+                        count = 0;
+                        tempStr = String.Empty;
+                        break;
+                    default:
+                        if (count == 0)
+                            result += ch;
+                        else
+                            count++;
+                        break;
                 }
-                else if (ch == '>')
-                {
-                    count++;
-                    if (count < 3)
-                    {
-                        result += tempStr;
-                    }
-                    count = 0;
-                    tempStr = String.Empty;
-                }
-                else if (count == 0)
-                    result += ch;
-                else
-                    count++;
             }
             result = result.Replace("&nbsp;", "");
-            return RemoveWhitespace(result.Trim());
-        }
-        /// <summary>
-        /// Рекурсивный метод удаления ришних пробелов
-        /// </summary>
-        /// <param name="string"></param>
-        /// <returns></returns>
-        static String RemoveWhitespace(String @string)
-        {
-            var res = @string.Replace("  ", " ");
-            if (res.Length != @string.Length)
-                return RemoveWhitespace(res);
-            return res;
+            return result.Trim().RemoveWhitespace();
         }
     }
 }

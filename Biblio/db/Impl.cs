@@ -15,19 +15,6 @@ namespace Biblio.db
         {
             _dbBaseReader = new DbBaseReader(connectionString);
         }
-        /// <summary>
-        /// Сохранить слово в списке всех слов
-        /// </summary>
-        /// <param name="word"></param>
-        public void SaveWord(String word)
-        {
-            if (word == null)
-                return;
-            _dbBaseReader.Execute(DbSpList.AddWord, new
-            {
-                @word = word,
-            });
-        }
 
         ///// <summary>
         ///// Сохранить индексную запись
@@ -38,7 +25,7 @@ namespace Biblio.db
         {
             if (word == null || recordId < 0)
                 return;
-            _dbBaseReader.Execute(DbSpList.AddFulltextRecord, new
+            _dbBaseReader.Execute(DbSpList.AddFullTextRecord, new
             {
                 @Word = word,
                 @RecordId = recordId

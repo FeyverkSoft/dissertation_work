@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="db\DbParamsObj\AddFullTextRecord.cs" />
     <Compile Include="db\DbParamsObj\AddRecord.cs" />
     <Compile Include="db\DbSpList.cs" />
     <Compile Include="db\Entity\Author.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="db\Entity\Record.cs" />
     <Compile Include="db\Impl.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ResponseStringHelper.cs" />

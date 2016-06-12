@@ -84,6 +84,8 @@
     <Build Include="Scheme\Internal.sql" />
     <Build Include="Stored Procedures\dbo\AddRecord.sql" />
     <Build Include="Stored Procedures\Internal\AddAuthor.sql" />
+    <Build Include="Stored Procedures\dbo\GetRawDocList.sql" />
+    <Build Include="Stored Procedures\dbo\AddFullTextRecord.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib_db.publish.xml" />

@@ -4,6 +4,7 @@ using System.Linq;
 using Biblio.db;
 using Biblio.db.DbParamsObj;
 using Biblio.db.Entity;
+using Biblio.Helpers;
 using Biblio.Providers;
 
 namespace Biblio
@@ -47,7 +48,7 @@ namespace Biblio
             if (String.IsNullOrEmpty(authors))
                 return null;
 
-            var autors = RemoveWhitespace(authors).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);//авторы разделены запятухой
+            var autors = authors.RemoveWhitespace().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);//авторы разделены запятухой
             foreach (var a in autors.Select(x => x.Trim()).Where(x => x.Length > 1))
             {
                 var wh = a.IndexOf(' ');
@@ -62,18 +63,7 @@ namespace Biblio
             }
             return res;
         }
-        /// <summary>
-        /// Рекурсивный метод удаления ришних пробелов
-        /// </summary>
-        /// <param name="string"></param>
-        /// <returns></returns>
-        static String RemoveWhitespace(String @string)
-        {
-            var res = @string.Replace("  ", " ");
-            if (res.Length != @string.Length)
-                return RemoveWhitespace(res);
-            return res;
-        }
+
         static String[] TextHandl(String text)
         {
             var splitters = new[]
