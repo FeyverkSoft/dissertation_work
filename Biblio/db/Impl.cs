@@ -21,15 +21,11 @@ namespace Biblio.db
         ///// </summary>
         ///// <param name="word"></param>
         ///// <param name="recordId"></param>
-        public void AddFulltextRecord(String word, Int64 recordId)
+        public void AddFulltextRecord(AddFullTextRecord fullTextRecord)
         {
-            if (word == null || recordId < 0)
+            if (fullTextRecord == null)
                 return;
-            _dbBaseReader.Execute(DbSpList.AddFullTextRecord, new
-            {
-                @Word = word,
-                @RecordId = recordId
-            });
+            _dbBaseReader.Execute(DbSpList.AddFullTextRecord, fullTextRecord);
         }
 
         /// <summary>

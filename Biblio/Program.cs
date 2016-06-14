@@ -33,6 +33,11 @@ namespace Biblio
                         YearOfPublishing = raw.YearOfPublishing,
                         AuthorArray = ParseAuthor(raw.Authors)
                     });
+                var splFace = face.TextSplit();
+                foreach (var s in splFace)
+                {
+                    impl.AddFulltextRecord(new AddFullTextRecord { });
+                }
             }
             Console.ReadLine();
         }
@@ -49,7 +54,7 @@ namespace Biblio
                 return null;
 
             var autors = authors.RemoveWhitespace().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);//авторы разделены запятухой
-            foreach (var a in autors.Select(x => x.Trim()).Where(x => x.Length > 1))
+            foreach (var a in autors.Select(x => x.Trim().RemoveWhitespace()).Where(x => x.Length > 1))
             {
                 var wh = a.IndexOf(' ');
                 if (wh > 0)
