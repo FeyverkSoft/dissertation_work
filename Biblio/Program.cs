@@ -63,16 +63,5 @@ namespace Biblio
             }
             return res;
         }
-
-        static String[] TextHandl(String text)
-        {
-            var splitters = new[]
-            {
-                ' ', '.', ',', ';', ':', '?', '!', '(', ')', '"', '}',
-                '{', '>', '<', '=', '\\', '/', '|', '\r', '\n', '\t',
-                '$', '%', '*', '@', '№', '[', ']'
-            };
-            return text?.ToLower().Split(splitters, StringSplitOptions.RemoveEmptyEntries).Where(x => !String.IsNullOrEmpty(x) && x.Length > 1 && Char.IsLetter(x[0])).ToArray();
-        }
     }
 }
